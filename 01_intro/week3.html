@@ -1,1 +1,70 @@
 Week2.html
+<!DOCTYPE html>
+<html lang="en">
+
+<title>PS70: Intro to Digital Fabrication-Liam M </title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="../style.css" rel="stylesheet">
+
+
+<nav class="navbar navbar-expand-sm navbar-light bg-light">
+  <div style="align-items: left; justify-content:left;" class="container-fluid">
+    <h3 class="nav-title"> PS70: Intro to Digital Fabrication-Liam M </h3>
+    <div class="navbar-nav">
+      <h4></h4>
+      <h4><a class="nav-link" href="../index.html">Home</a></h4>
+      <h4><a class="nav-link" href="../about.html">About</a></h4>
+    </div>
+  </div>
+</nav>
+
+<body>
+
+
+<xmp style="display:none;">
+<br> 
+
+#### Week 3 and 4: Kinetic sculpture and programming arudino board.
+<iframe src="https://drive.google.com/file/d/1fGot2WDo5rgYRXxw5FHEn0Wd8XYT8k03/preview" width="640" height="480" allow="autoplay"></iframe>
+I wanted to make something boring and simple. Its just a swing and instsead of actually swinging it just kinda jerks because nobody is on it and it would be impractical to have it moving a lot without anyone on it.
+
+The Code that I used for the Arduino Board is below: 
+
+const int A1A = 3;  
+const int A1B = 4;  
+
+void setup() {
+  pinMode(A1A, OUTPUT);     
+  pinMode(A1B, OUTPUT);
+  analogWrite(A1A, 0);  
+  digitalWrite(A1B, LOW);
+}
+
+void loop() {
+  
+  analogWrite(A1A, 225);
+  digitalWrite(A1B, LOW);
+  delay(350);              
+
+  
+  analogWrite(A1A, 0);   
+  delay(5000);             
+
+ 
+
+}
+ 
+ Here are some pictures of the process: 
+ ![picture of tree in making/ after glued together](./Tree.png)
+I used my Pressfit Idea and wanted to expand upon it. So I made a tree using the pressfit Idea given to me by MIT. I incorporated a swing attatched to it to account for the kinetic structure.
+
+ ![Picture of Motor](./Motor.png)
+This was the mechanism that moved the string to pull it tighter and then release It. if I had more time I would habve done research on the Ideal proportions for that kind of mechanism because I was unable to attatch the string too far to the inside because It would get caught on the motor and wrap around. Also, I had a very faulty motor and It would not move at some points when I tried to change the output. THe minimum output threshold was around 135 when it generally is much lower. I do not know if that was because mine was different or because all of them were faulty. I programmed the arduino to send power to the motor every 5 seconds for 0.45 seconds to create one full revolution. Once again, I ran into a Problem because the Motor when faced with resistance would not consistently provide one full revolution and instead went off inconsistently going 5/8ths of the way one time and 2/5ths of the way another. I had to settle with an inconsitent jerk because I was short on time but aesthetically it was kind of pleasing to look at. I also made a switch which I was very proud of.
+
+</xmp>
+</body>
+
+<script src="../strapdown.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" ></script>
+
+</html>
