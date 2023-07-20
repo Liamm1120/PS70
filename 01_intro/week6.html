@@ -1,1 +1,100 @@
-Week2.html
+
+ml
+<!DOCTYPE html>
+<html lang="en">
+
+<title>PS70: Intro to Digital Fabrication-Liam M </title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="../style.css" rel="stylesheet">
+
+
+<nav class="navbar navbar-expand-sm navbar-light bg-light">
+  <div style="align-items: left; justify-content:left;" class="container-fluid">
+    <h3 class="nav-title"> PS70: Intro to Digital Fabrication-Liam M </h3>
+    <div class="navbar-nav">
+      <h4></h4>
+      <h4><a class="nav-link" href="../index.html">Home</a></h4>
+      <h4><a class="nav-link" href="../about.html">About</a></h4>
+    </div>
+  </div>
+</nav>
+
+<body>
+
+
+<xmp style="display:none;">
+<br> 
+
+#### Week 6 & 7: Input and output devices 
+<iframe src="https://drive.google.com/file/d/1XUP2JZ0uUbBksvWwm_vm_mGLw00X32Sy/view?t=6s" width="640" height="480" allow="autoplay"></iframe>
+Here I attempted to make a working pressure sensor using capacitance as the imput and the OLED as the output. The OLED displays the words "test 1" and below that displays the distance between the two capacitors. in this way the closer the capacitors got, the higher the pressure was. I was incapable of programming a code that would convert the distance between them to psi but im sure sometime in the future I'll figure it out. 
+
+
+Here was the code that I used:
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+
+#define screen_width 128
+#define screen_height 64
+
+Adafruit_SSD1306 display(screen_width, screen_height);
+
+
+
+
+int analog_pin = A3;
+int tx_pin = 4;
+int read_high;
+int read_low;
+int diff; 
+void printPing()
+{
+  while(true)
+      pinMode(tx_pin, OUTPUT);      // Pin 4 provides the voltage step
+    Serial.begin(9600);
+}
+
+
+
+
+void printPong()
+{
+     digitalWrite(tx_pin,HIGH);           // Step the voltage high on conductor 1.
+    read_high = analogRead(analog_pin);  // Measure response of conductor 2.
+    delayMicroseconds(100);              // Delay to reach steady state.
+    digitalWrite(tx_pin,LOW);            // Step the voltage to zero on conductor 1.
+    read_low = analogRead(analog_pin);   // Measure response of conductor 2.
+    diff = read_high - read_low;         // desired answer is the difference between high and low.
+    Serial.println(diff);
+}
+void setup() {
+  // put your setup code here, to run once:
+display.begin(SSD1306_SWITCHCAPVCC, 0x3c);
+}
+
+void displayupdate (){
+  display.clearDisplay();
+display.setTextSize(3);
+display.setTextColor(SSD1306_WHITE);
+display.setCursor(0, 0);
+display.print("Test 1");
+display.setCursor(64, 45);
+display.print(diff);
+display.display();
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+   printPong();
+   delay (300);
+displayupdate();
+}
+
+</xmp>
+</body>
+
+<script src="../strapdown.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" ></script>
+
+</html>
