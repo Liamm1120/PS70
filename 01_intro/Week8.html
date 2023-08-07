@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<title>PS70: Intro to Digital Fabrication-Liam M </title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="../style.css" rel="stylesheet">
+
+
+<nav class="navbar navbar-expand-sm navbar-light bg-light">
+  <div style="align-items: left; justify-content:left;" class="container-fluid">
+    <h3 class="nav-title"> PS70: Intro to Digital Fabrication-Liam M </h3>
+    <div class="navbar-nav">
+      <h4></h4>
+      <h4><a class="nav-link" href="../index.html">Home</a></h4>
+      <h4><a class="nav-link" href="../about.html">About</a></h4>
+    </div>
+  </div>
+</nav>
+
+<body>
+
+
+<xmp style="display:none;">
+<br> 
+
+#### Final Project (one that ended in failure)
+
+Unfortuantely I do not have a video of my final project because it never worked. 
+What I do have is an explination of the intended purpose with a couple photos to accompany: 
+My project was intended to be an automatic touniquette for quick, easy, and light application unlike the big, bulky, and hard to use ones that hospitals have. My plan was to set up a device in which a pressure sensor would be connected and as the belt tightened the pressure sensor would stop at certain points depending on the severity and location of the wound. For example: a hand getting cut off would only require between 7-9 Pounds of pressure whereas a leg would be 10 to 12PSI. Here is the blueprint I made for the way the device would look and function: 
+
+![Picture of Blueprint](./tourniquete.png)
+
+The first thing I did was set up the circutry for my project. I mapped it out on a bluebook and then started my connection to a Protoboard. After about 6-7hours of soldering and planning, I ended up with this: 
+
+![Picture of Board](./01_intro/Circut board.png)
+
+After my circutry was all set up I started to design the enclosure for the board and the motors. In an insaneley unfortunate turn of events, after waiting 10 hours for my chassis to print, I found that my walls were supports and there was no time to reprint. Now I had to resort to my second option: Wood. I did not want to use wood because I knew it would be harder to connect the pieces together and it would be even harder than that to find a method at which I could effectibvely connect them so they were able to support the pressure that would (hopefully) be applied. Also, I nowe had to create a fully new sketch for my chassis so that I could use a laser cutter because that was the mose accurate and efficient way to go about using wood. Even when using the Laser cutter tradgedy struck and several of my pieces were not fully cut through. In short, the chassis building process was a disaster. 
+
+Here is what I intended:
+
+<a download href='./01_intro/cylinder.stl'>Download my STL file <\a>
+
+
+Here was what I ended up with though: 
+
+![Picture of Bchassis](./01_intro/Chassis.png)
+
+While I was waiting for my Chassis to print, I began to work on my code. My first thought was "oh this'll be simple enough I just need to make it so that the number of presses on a button directly translates to a pressure reading at which the motors should stop at."I was dead wrong. Writing the code had to have been the most frusturating experience of it all. I tried, and tried, and tried again. I think at a minimum I spent at least 17-18 hours working on my code alone.Each of the parts worked individually but none of them wanted to work together which realluy pissed me off. I even ran my code through chat GPT and dispite the fact that it said the code would do what I wanted it to, it didnt. The furthest point I got to was when only the OLED would not work but everything else was fine. Here is all the code I have saved: 
+ <pre>
+  <code>
+#include<Wire.h>
+#include <SparkFun_MicroPressure.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+
+#define screen_width 128
+#define screen_height 64
+
+Adafruit_SSD1306 display(screen_width, screen_height);
+const int A1A = 3;
+const int A1B = 4;
+int buttonstate = HIGH; 
+/*
+ * Initialize Constructor
+ * Optional parameters:
+ *  - EOC_PIN: End Of Conversion (defualt: -1)
+ *  - RST_PIN: Reset (defualt: -1)
+ *  - MIN_PSI: Minimum Pressure (default: 0 PSI)
+ *  - MAX_PSI: Maximum Pressure (default: 25 PSI)
+ */
+//SparkFun_MicroPressure mpr(EOC_PIN, RST_PIN, MIN_PSI, MAX_PSI);
+SparkFun_MicroPressure mpr; // Use default values with reset and EOC pins unused
+
+void setup() {
+  
+  Serial.begin(9600);
+  Wire.begin();
+  
+  pinMode(A3,INPUT_PULLUP);
+ 
+  if(!mpr.begin())
+  {
+    Serial.println("Cannot connect to MicroPressure sensor.");
+    while(1);
+  }
+}
+
+void loop() {
+
+  Serial.print(mpr.readPressure(),4);
+  Serial.println(" PSI");
+  Serial.println();
+  delay(500);
+
+  buttonstate = digitalRead(A3);
+ if (buttonstate == HIGH){
+   motorrun();
+ }
+ 
+}
+void motorfunction(){
+    pinMode(A1A, OUTPUT);     
+  pinMode(A1B, OUTPUT);
+  digitalWrite(A1A, LOW);   
+  digitalWrite(A1B, LOW);
+
+}
+
+
+
+void motorrun(){
+  if ((mpr.readPressure(),4) < 19) {
+    digitalWrite(A1A, HIGH);   
+  digitalWrite(A1B, HIGH);}
+  if ((mpr.readPressure(),4)==19) {
+    digitalWrite(A1A, LOW);   
+  digitalWrite(A1B, LOW);}
+}
+
+  void motorrun1(){
+  if ((mpr.readPressure(),4) < 22) {
+    digitalWrite(A1A, HIGH);   
+  digitalWrite(A1B, HIGH);}
+  if ((mpr.readPressure(),4)==22) {
+    digitalWrite(A1A, LOW);   
+  digitalWrite(A1B, LOW);}
+  }
+
+  void motorrun2(){
+  if ((mpr.readPressure(),4) < 25) {
+    digitalWrite(A1A, HIGH);   
+  digitalWrite(A1B, HIGH);}
+
+  else {
+    digitalWrite (A1A,LOW);
+    digitalWrite (A1B,LOW);
+  } 
+  }
+
+  </code>
+</pre>
+
+
+All in all, I failed. I showed up to the project fair day having a code running that wasnt this one and even that didnt work because the arduino redused to use the batterry pack i had connected to It for god knows what reason. I did learn something though, if I had just been a little more careful in my planning I am sure it would have worked but I wasnt and it failed. 
+Here are the remains of the failed project: 
+
+![Picture of Bchassis](./01_intro/Finalproj.png)
+</xmp>
+</body>
+
+<script src="../strapdown.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" ></script>
+
+</html>
+
